@@ -2,9 +2,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import jave.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
-/**Enter your name here**/
+/**Luke Ryan*/
 
 public class ChainReactionMain {
 
@@ -34,6 +37,7 @@ public class ChainReactionMain {
         {
             int chainLength = 0;
             int guesses = 0;
+            int difficulty = 0;
 
             System.out.println("*********************************");
             System.out.println("*                               *");
@@ -47,33 +51,33 @@ public class ChainReactionMain {
             System.out.println("Superstar.................press 3");
             System.out.println("Custom....................press 4\n");
             System.out.print("SELECT DIFFICULTY: ");
-            int difficulty = new Scanner(System.in).nextInt();
+            difficulty = new Scanner(System.in).nextInt();
             switch (difficulty) {
                 case 0:{
-                    chainLength = 3;
-                    guesses = 3;
-                    break;
-                }
-                case 1:{
-                    chainLength = 3;
+                    chainLength = 5;
                     guesses = 10;
                     break;
                 }
-                case 2: {
-                    chainLength = 5;
+                case 1:{
+                    chainLength = 7;
                     guesses = 15;
                     break;
                 }
-                case 3: {
-                    chainLength = 7;
+                case 2: {
+                    chainLength = 9;
                     guesses = 20;
                     break;
                 }
+                case 3: {
+	             System.out.print("Enter Chain Length: ");
+                    chainLength = (new Scanner(System.in)).nextInt();
+	             System.out.print("enter number of Guesses: ");
+                    guesses = (new Scanner(System.in)).nextInt();
+                    break;
+                }
                 default: {
-                    System.out.print("Enter Chain Length: ");
-                    chainLength = new Scanner(System.in).nextInt();
-                    System.out.print("Enter Number of Guesses: ");
-                    guesses = new Scanner(System.in).nextInt();
+                    System.out.print("an invalid selection, choose 0-3. ");
+                    
                     break;
                 }
             }
@@ -82,34 +86,42 @@ public class ChainReactionMain {
             c.playGame();
             System.out.println("\nPlay Again (y)es or (n)o");
             char option = new Scanner(System.in).next().toLowerCase().charAt(0);
-            if(option == 'n'){
+            if(option == 'y'){
                 System.out.println("\nTHANK YOU FOR PLAYING!");
-                break;
+                continue;
             }
         }
     }
 
     public static void cleanData(ArrayList<ArrayList<String>> wordSets){
-	/**Add Code here to clean dataset**/
-	    
-        validate(wordSets);
-    }
-    public static void validate(ArrayList<ArrayList<String>> wordSets){
-        final int wordCountValid = 8033;
-        final int wordSetCountValid = 2334;
-
-        int numTotalWords = 0;
-        for (ArrayList<String> wordSet : wordSets) {
-            for (int j = 0; j < wordSet.size(); j++) {
-                numTotalWords++;
-            }
-        }
-        System.out.println("Total Word Count: " + numTotalWords);
-        System.out.println("Number of Unique Words: " + wordSets.size());
-        String status = "Incomplete";
-        if(wordCountValid == numTotalWords && wordSetCountValid == wordSets.size()){
-            status = "Complete";
-        }
-        System.out.println("Dataset Cleaning: " + status);
+	set<String> firstWords = new HashSet<>();
+	fir (ArrayList<String> row : wordSets) {
+		if (!row.isEmpty()){
+			firstWords.add(row.get(0));
+		}
+	}
+	    set<Stirng> validWords = new HashSet<>();
+	    for (ArrayList<String> row : wordSets) {
+		    if (row.size() > 1) {
+			    for (String word : row){
+				    if (firstWords.contains(word)){
+					    validWords.add(word);
+					    
+				    }
+			    }
+		    }
+	    }
+	    int totalWordCount = 0; 
+	for (ArrayList<String> row : wordSets) {
+		for (String word : row) {
+			if (validWords.contains(word)){
+				totalWordCount++;
+			}
+		}
+	}
+	    int uniqueWordCount = validWords.size();
+	    System.out.println("Total Word Count: " + totalWordCount);
+	    System.out.println("Number of Unique Words: " + uniqueWordCount);
+	    System.out.println("Dataset Cleaning: Complete");
     }
 }
